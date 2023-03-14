@@ -10,7 +10,7 @@ ml.device.onReady(function () {
 
 	ml.game.world.backgroundColor.parseCSS("#000000");
 
-	ml.game.world.addChild(new me.Text(610, 360, {
+	ml.game.world.addChild(new ml.Text(610, 360, {
 		font: "Arial",
 		size: 160,
 		fillStyle: "#FFFFFF",
