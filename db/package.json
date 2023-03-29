@@ -1,0 +1,23 @@
+{
+  "name": "447-db-api",
+  "version": "1.0.0",
+  "description": "Database implementation for CMSC 447",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/447-Project-23/Database-Implementation.git"
+  },
+  "author": "the team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/447-Project-23/Database-Implementation/issues"
+  },
+  "homepage": "https://github.com/447-Project-23/Database-Implementation#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6"
+  }
+}
