@@ -12,13 +12,13 @@ image.onload = () => {
     animate()
     
 }
-image.src = 'img/map.png'
+image.src = 'img/map_64.png'
 
 class Enemy {
     constructor({position = { x: 0, y: 0 }}) {
         this.position = position
-        this.width = 50
-        this.height = 50
+        this.width = 100
+        this.height = 100
         this.waypointIndex = 0
         this.center = {
             x: this.position.x + this.width / 2,
