@@ -90,30 +90,6 @@ app.post("/users/add", (req, res, next) => {
     })
 })
 
-// USERS/CHECK
-app.get("/users/check", (req, res, next) => {
-    if (!req.body.id) {
-        res.status(400).json({"error":"no ID given"});
-    }
-    console.log(req.body.id)
-    params = [req.body.id]
-    query = "SELECT * FROM users WHERE id=(?)"
-    db.get(query, params, (err, result) => {
-        console.log(result)
-        if (err) 
-        {
-            res.status(400).json({"error":err.message})
-            return;
-        }
-        if (result && result.length != {}) 
-        {
-            res.status(400).json({"error":"user already exists"})
-            return;
-        }
-        res.json({"message":"user does not exist"})
-    })
-})
-
 // /USERS/GET/:id
 // gets a certain user by their id returning a json object
 // request @ get("http://localhost:9000/users/get/{ID}")
@@ -126,7 +102,12 @@ app.get("/users/get/:id", (req, res, next) => {
             res.status(400).json({"error":err.message})
             return;
         }
-        res.json({"user":sql})
+        console.log(sql)
+        if (!sql  || sql == {})
+        {
+            sql = {"id":"INVALID", "level":0, "score":0}
+        }
+        res.json(sql)
     })
 })
 
