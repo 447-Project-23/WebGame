@@ -10,9 +10,9 @@ context.fillRect(0, 0, canvas.width, canvas.height)
 const image = new Image()
 image.onload = () => {
     animate()
-    
+
 }
-image.src = 'img/map.png'
+image.src = '../img/map.png'
 
 class Enemy {
     constructor({position = { x: 0, y: 0 }}) {
@@ -33,7 +33,7 @@ class Enemy {
 
     update() {
         this.draw()
-        
+
         const waypoint = waypoints[this.waypointIndex]
         const yDistance = waypoint.y - this.center.y
         const xDistance = waypoint.x - this.center.x
@@ -46,7 +46,7 @@ class Enemy {
         }
 
         if (
-            Math.round(this.center.x) === Math.round(waypoint.x) && 
+            Math.round(this.center.x) === Math.round(waypoint.x) &&
             Math.round(this.center.y) === Math.round(waypoint.y) &&
             this.waypointIndex < waypoints.length - 1)
             {
@@ -72,4 +72,3 @@ function animate() {
         enemy.update()
     })
 }
-
