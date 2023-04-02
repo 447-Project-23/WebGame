@@ -5,8 +5,10 @@ var express = require("express")
 var app = express()
 var db = require('./database.js')
 var bodyParser = require("body-parser");
+var cors = require("cors");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 // port and show running
 var HTTP_PORT = 9000 
@@ -58,6 +60,7 @@ app.get("/users/scores", (req, res, next) => {
 // so it will allow multiple users with the same ID
 // can address later
 app.post("/users/add", (req, res, next) => {
+    console.log(req.body);
     let errors = [];
     if (!req.body.id) {
         errors.push("no id")
