@@ -41,11 +41,17 @@ async function validateSignIn() {
 	}
 }
 
+//The user is new, so add to the database
 async function addUser(userName) {
 	let userObject = {id: userName, level: 0, score: 0};
 	let jsonObject = JSON.stringify(userObject);
 	console.log(jsonObject);
-	fetch("http://localhost:9000/users/add", {
+	axios.post("http://localhost:9000/users/add", jsonObject).then((res) => {
+		res.json().then(function(data) {
+			console.log(data);
+		});
+	}).catch(error => console.log(error));
+	/*fetch("http://localhost:9000/users/add", {
 		method: "POST",
 		mode: "cors",
 		body: JSON.stringify({
@@ -57,25 +63,50 @@ async function addUser(userName) {
 			contentType: "application/json; charset=UTF-8",
 		}
 	}).then((res) => {
-		console.log(res);
-	}) 
+		res.json().then(function(data) {
+			console.log(data);
+		});
+	});*/
 
 	return;
 }
 
+//This function is used when the user tries to log in again
 async function validateLogIn() {
 	const userName = document.getElementById("loginUserText").value;
 	console.log(userName);
 	if (userName.localeCompare("") == 0) {
 		document.getElementById("loginUserText").classList.add("is-invalid");
+		document.getElementById("invalidLoginText").style.display = "none";
 		return;
 	} else {
 		document.getElementById("loginUserText").classList.add("is-valid");
 		document.getElementById("loginUserText").classList.remove("is-invalid");
+		document.getElementById("invalidLoginText").style.display = "none";
 	}
 	const response = await fetch("http://localhost:9000/users/get/" + userName, {
 		method: "GET",
 		mode: "cors",
 	});
 	console.log(response);
+	//Check the API response and determine further steps
+	if (!response.ok) {
+		console.log("ERROR");
+	} else {
+		response.json().then(function(data) {
+			console.log(data);
+			//If data is invalid, then a new user with this name can be created.
+			//Else, if the data has some name, then there is already a user with this name
+			if (data.id.localeCompare("INVALID") == 0) {
+				//New user can be created
+				document.getElementById("invalidLoginText").style.display = "block";
+			} else {
+				//Already a user with this name.
+				document.location.href='\menu.html';
+				
+				//If we need to use this information elsewhere, we can create global variables
+				return;
+			}
+		});
+	}
 }

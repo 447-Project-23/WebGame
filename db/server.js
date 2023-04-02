@@ -60,7 +60,6 @@ app.get("/users/scores", (req, res, next) => {
 // so it will allow multiple users with the same ID
 // can address later
 app.post("/users/add", (req, res, next) => {
-    console.log(req.body);
     let errors = [];
     if (!req.body.id) {
         errors.push("no id")
