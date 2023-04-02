@@ -43,12 +43,12 @@ async function validateSignIn() {
 
 //The user is new, so add to the database
 async function addUser(userName) {
-	let userObject = {id: userName, level: 0, score: 0};
+	let userObject = {id: userName, level: '0', score: '0'};
 	let jsonObject = JSON.stringify(userObject);
 	console.log(jsonObject);
-	axios.post("http://localhost:9000/users/add", jsonObject).then((res) => {
+	axios.post("http://localhost:9000/users/add/", userObject).then((res) => {
 		res.json().then(function(data) {
-			console.log(data);
+			console.log("Here", data);
 		});
 	}).catch(error => console.log(error));
 	/*fetch("http://localhost:9000/users/add", {
