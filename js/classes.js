@@ -135,9 +135,10 @@ class Enemy {
 }
 
 class Building {
-    constructor({position = {x:0, y:0}}) {
+    constructor({position = {x:0, y:0}}, cost) {
         this.position = position
         this.width = 32
+        this.cost = 50
     }
 
     draw() {

@@ -75,13 +75,26 @@ function animate() {
 
 canvas.addEventListener('click', (event) => {
     if (activeTile && !activeTile.isOccupied) {
-        buildings.push(new Building ({
+        let tower = new Building ({
             position: {
                 x: activeTile.position.x,
                 y: activeTile.position.y
-            }
-        }))
-        activeTile.isOccupied = true
+            },
+            cost: 50 // @todo: this is undefined when passed in, hardcoded for now
+        })
+
+        if (game.money >= tower.cost) {
+            console.log("!")
+            buildings.push(new Building ({
+                    position: {
+                    x: activeTile.position.x,
+                    y: activeTile.position.y
+                }
+            }))
+
+            activeTile.isOccupied = true
+            game.money -= tower.cost
+        }
     }
 })
 
