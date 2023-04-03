@@ -6,7 +6,10 @@ const mouse = {
     y: undefined
 }
 
-var game = new Game()
+const placementTilesData2D = []
+const placementTiles = []
+
+const game = new Game()
 
 canvas.width = 1280
 canvas.height = 768
@@ -14,13 +17,9 @@ canvas.height = 768
 context.fillStyle = 'white'
 context.fillRect(0, 0, canvas.width, canvas.height)
 
-const placementTilesData2D = []
-
 for (let i = 0; i < placementTilesData.length; i += 40) {
     placementTilesData2D.push(placementTilesData.slice(i, i + 40))
 }
-
-const placementTiles = []
 
 placementTilesData2D.forEach((row, y) => {
     row.forEach((symbol, x) => {
@@ -43,12 +42,12 @@ image.onload = () => {
 image.src = 'img/map_64.png'
 
 const enemies = []
-for (let i = 1; i < 10; i++) {
+for (let i = 1; i < 11; i++) {
     const xOffset = i * 150
     enemies.push(new Enemy({
-        position: { x: waypoints[0].x - xOffset, y: waypoints[0].y }
-        })
-    )
+        position: { x: waypoints[0].x - xOffset, y: waypoints[0].y },
+        game: game
+    }))
 }
 
 const buildings = []

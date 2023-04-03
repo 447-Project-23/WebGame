@@ -1,10 +1,11 @@
 class Game {
     constructor() {
-        this.health = 15
-        this.startingHealth = 0
+        this.health = 10
+        this.startingHealth = 10
         this.money = 500
         this.startingMoney = 500
         this.score = 0
+        this.director = undefined
     }
 }
 
@@ -39,14 +40,14 @@ class PlacementTile {
         this.draw()
 
         if (mouse.x > this.position.x && mouse.x < this.position.x + this.size && mouse.y > this.position.y && mouse.y < this.position.y + this.size) {
-            this.color = 'white'
+            this.color = 'lightblue'
         }
         else this.color = 'rgba(0, 0, 0, 0.03)'
     }
 }
 
 class Enemy {
-    constructor({position = { x: 0, y: 0 }}) {
+    constructor({position = { x: 0, y: 0 }}, game) {
         this.position = position
         this.width = 60
         this.height = 60
@@ -55,6 +56,9 @@ class Enemy {
             x: this.position.x + this.width / 2,
             y: this.position.y + this.height / 2
         }
+        this.damageValue = 1
+        this.moneyValue = 25
+        this.game = game
     }
 
     draw() {
@@ -82,6 +86,16 @@ class Enemy {
             this.waypointIndex < waypoints.length - 1)
             {
                 this.waypointIndex++
+                if (this.waypointIndex >= waypoints.length - 1) {
+                    game.health -= this.damageValue
+                    delete this
+
+                    // The last enemy seems to trigger its last waypoint
+                    // early, so it will still be on screen when it updates
+                    // the game objects health.
+                    // @todo: fix that
+                    if (game.health < 1) alert("You lost!")
+                }
         }
     }
 }
