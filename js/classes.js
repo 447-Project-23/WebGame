@@ -5,7 +5,7 @@ class Game {
         this.money = 500
         this.startingMoney = 500
         this.score = 0
-        this.director = undefined
+        this.director = new Director()
     }
 }
 
@@ -14,6 +14,18 @@ class Director {
         this.waves = []
         this.currentWave = 0
         this.totalWaves = 5
+    }
+
+    addWave(wave) {
+        this.waves.push(wave)
+    }
+
+    startNextWave() {
+        this.waves[this.currentWave].forEach(enemy => {
+            enemy.update()
+        })
+
+        // @todo: update wave counter once the wave is finished
     }
 }
 
@@ -86,9 +98,12 @@ class Enemy {
             this.waypointIndex < waypoints.length - 1)
             {
                 this.waypointIndex++
-                if (this.waypointIndex >= waypoints.length - 1) {
+
+                // Determine if enemy made it to the end
+                if (this.waypointIndex == waypoints.length - 2) {
                     game.health -= this.damageValue
-                    delete this
+
+                    delete this // @todo: figure out how to actually remove an enemy
 
                     // The last enemy seems to trigger its last waypoint
                     // early, so it will still be on screen when it updates

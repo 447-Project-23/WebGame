@@ -11,6 +11,15 @@ const placementTiles = []
 
 const game = new Game()
 
+const buildings = []
+let activeTile = undefined
+
+const image = new Image()
+image.onload = () => {
+    animate()
+}
+image.src = 'img/map_64.png'
+
 canvas.width = 1280
 canvas.height = 768
 
@@ -35,31 +44,22 @@ placementTilesData2D.forEach((row, y) => {
 
 console.log(placementTilesData2D)
 
-const image = new Image()
-image.onload = () => {
-    animate()
-}
-image.src = 'img/map_64.png'
-
-const enemies = []
+let wave1 = [] // Could maybe predefine these (?)
 for (let i = 1; i < 11; i++) {
     const xOffset = i * 150
-    enemies.push(new Enemy({
+    wave1.push(new Enemy({
         position: { x: waypoints[0].x - xOffset, y: waypoints[0].y },
         game: game
     }))
 }
-
-const buildings = []
-let activeTile = undefined
+game.director.addWave(wave1)
 
 function animate() {
     requestAnimationFrame(animate)
 
     context.drawImage(image, 0, 0)
-    enemies.forEach(enemy => {
-        enemy.update()
-    })
+
+    game.director.startNextWave()
 
     placementTiles.forEach(tile => {
         tile.update(mouse)
