@@ -10,6 +10,7 @@ const placementTilesData2D = []
 const placementTiles = []
 
 const game = new Game()
+const topbar = new InfoUI(game)
 
 const buildings = []
 let activeTile = undefined
@@ -59,6 +60,8 @@ function animate() {
 
     context.drawImage(image, 0, 0)
 
+    topbar.draw()
+
     game.director.startNextWave()
 
     placementTiles.forEach(tile => {
@@ -87,6 +90,9 @@ window.addEventListener('mousemove', (event) => {
     mouse.y = event.clientY
 
     activeTile = null
+
+    // @todo: Fix cursor coordinates
+    // Game doesn't account for centering of canvas, so they are offset
 
     for (let i = 0; i < placementTiles.length; i++) {
         const tile = placementTiles[i]

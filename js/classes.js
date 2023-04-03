@@ -35,6 +35,25 @@ class Wave {
     }
 }
 
+class InfoUI {
+    constructor(game) {
+        this.game = game
+    }
+
+    draw() {
+        // Menu testing
+        context.fillStyle = "black"
+        context.fillRect(388, 0, 504, 42)
+        context.fillStyle = "#f2b230"
+        context.fillRect(390, 0, 500, 40)
+        context.fillStyle = "black"
+        context.font = "30px serif"
+        let str = "Lives: " + game.health + " Money: "
+            + game.money + " Wave: " + (game.director.currentWave + 1)
+        context.fillText(str, 450, 30)
+    }
+}
+
 class PlacementTile {
     constructor({position = {x:0, y:0}}) {
         this.position = position
