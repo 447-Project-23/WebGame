@@ -32,7 +32,6 @@ console.log(placementTilesData2D)
 const image = new Image()
 image.onload = () => {
     animate()
-    
 }
 image.src = 'img/map_64.png'
 
