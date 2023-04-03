@@ -1,3 +1,27 @@
+class Game {
+    constructor() {
+        this.health = 15
+        this.startingHealth = 0
+        this.money = 500
+        this.startingMoney = 500
+        this.score = 0
+    }
+}
+
+class Director {
+    constructor() {
+        this.waves = []
+        this.currentWave = 0
+        this.totalWaves = 5
+    }
+}
+
+class Wave {
+    constructor() {
+        this.contents = []
+    }
+}
+
 class PlacementTile {
     constructor({position = {x:0, y:0}}) {
         this.position = position

@@ -1,6 +1,13 @@
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
 
+const mouse = {
+    x: undefined,
+    y: undefined
+}
+
+var game = new Game()
+
 canvas.width = 1280
 canvas.height = 768
 
@@ -62,11 +69,6 @@ function animate() {
     buildings.forEach(building => {
         building.draw()
     })
-}
-
-const mouse = {
-    x: undefined,
-    y: undefined
 }
 
 canvas.addEventListener('click', (event) => {
