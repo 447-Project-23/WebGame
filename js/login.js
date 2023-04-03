@@ -4,7 +4,7 @@ async function validateSignIn() {
 	const userName = document.getElementById("createUserText").value;
 	console.log(userName);
 	//See if it is a valid attempt (i.e. not empty)
-	if (userName.localeCompare("") == 0) {
+	if (userName.length != 3 || userName != userName.toUpperCase()) {
 		//Empty username, so set fields to tell the user it is invalid
 		document.getElementById("createUserText").classList.add("is-invalid");
 		document.getElementById("invalidCreationText").style.display = "none";
@@ -47,26 +47,10 @@ async function addUser(userName) {
 	let jsonObject = JSON.stringify(userObject);
 	console.log(jsonObject);
 	axios.post("http://localhost:9000/users/add/", userObject).then((res) => {
-		res.json().then(function(data) {
-			console.log("Here", data);
-		});
-	}).catch(error => console.log(error));
-	/*fetch("http://localhost:9000/users/add", {
-		method: "POST",
-		mode: "cors",
-		body: JSON.stringify({
-			id: userName,
-			level: 0,
-			score: 0
-		}),
-		headers: {
-			contentType: "application/json; charset=UTF-8",
+		if (res.status == 200) {
+			document.location.href='\menu.html';
 		}
-	}).then((res) => {
-		res.json().then(function(data) {
-			console.log(data);
-		});
-	});*/
+	}).catch(error => console.log(error));
 
 	return;
 }
@@ -75,7 +59,7 @@ async function addUser(userName) {
 async function validateLogIn() {
 	const userName = document.getElementById("loginUserText").value;
 	console.log(userName);
-	if (userName.localeCompare("") == 0) {
+	if (userName.length != 3 || userName != userName.toUpperCase()) {
 		document.getElementById("loginUserText").classList.add("is-invalid");
 		document.getElementById("invalidLoginText").style.display = "none";
 		return;
