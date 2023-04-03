@@ -84,7 +84,6 @@ canvas.addEventListener('click', (event) => {
         })
 
         if (game.money >= tower.cost) {
-            console.log("!")
             buildings.push(new Building ({
                     position: {
                     x: activeTile.position.x,

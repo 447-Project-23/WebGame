@@ -4,7 +4,7 @@ class Game {
         this.startingHealth = 10
         this.money = 500
         this.startingMoney = 500
-        this.score = 0
+        this.score = 999 // just testing
         this.director = new Director()
     }
 }
@@ -43,14 +43,16 @@ class InfoUI {
     draw() {
         // Menu testing
         context.fillStyle = "black"
-        context.fillRect(388, 0, 504, 42)
+        context.fillRect(380, 0, 524, 42)
         context.fillStyle = "#f2b230"
-        context.fillRect(390, 0, 500, 40)
+        context.fillRect(382, 0, 520, 40)
         context.fillStyle = "black"
         context.font = "30px serif"
-        let str = "Lives: " + game.health + " Money: "
-            + game.money + " Wave: " + (game.director.currentWave + 1)
-        context.fillText(str, 450, 30)
+        let str = "Lives: " + game.health 
+            + " Money: " + game.money 
+            + " Wave: " + (game.director.currentWave + 1)
+            + " Score: " + game.score
+        context.fillText(str, 390, 30)
     }
 }
 
