@@ -100,7 +100,7 @@ class Enemy {
                 this.waypointIndex++
 
                 // Determine if enemy made it to the end
-                if (this.waypointIndex == waypoints.length - 2) {
+                if (this.waypointIndex == waypoints.length - 1) {
                     game.health -= this.damageValue
 
                     delete this // @todo: figure out how to actually remove an enemy
