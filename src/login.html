@@ -7,7 +7,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="../css/login.css">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-		<script src="../js/login.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="../js/login.js"></script>
         <title>
 			447 Tower Defense
 		</title>
@@ -20,12 +21,16 @@
       <div class="col text-center">
         <div class="row">
           <div class="col"></div>
-          <form name="createForm" class="col-5 text-center g-3">
+          <form id="newUserForm" class="col-5 text-center g-3">
             <p>Create a New Account:</p>
             <label for="createUserText" class="form-label">Username</label>
             <input type="text" class="form-control" id="createUserText" value="" required>
             <div class="invalid-feedback">
-              Invalid Username
+              Invalid Username. Must be three uppercase letters.
+            </div>
+            <div id="invalidCreationText">
+                This username is already in use. If this is your account, try logging in instead.
+                Else, create a new username.
             </div>
             <div class="col-12">
               <input class="btn btn-primary" type="button" value="Sign Up" onclick="javascript:validateSignIn()"></button>
@@ -37,15 +42,18 @@
       <div class="col text-center">
         <div class="row">
           <div class="col"></div>
-          <form class="col-5 text-center g-3" action="menu.html" method="post">
+          <form id="oldUserForm" class="col-5 text-center g-3">
             <p>Login to Pre-existing Account:</p>
             <label for="loginUserText" class="form-label">Username</label>
             <input type="text" class="form-control" id="loginUserText" value="" required>
             <div class="invalid-feedback">
-              No User with this Username
+              No User with this Username. Must be three uppercase letters.
             </div>
             <div class="col-12">
-              <button class="btn btn-primary" type="submit">Log In</button>
+              <input class="btn btn-primary" type="button" value="Log In" onclick="javascript:validateLogIn()"></button>
+            </div>
+            <div id="invalidLoginText">
+                No account with this username in the database. If this is your first time, try signing up instead.
             </div>
           </form>
           <div class="col"></div>
