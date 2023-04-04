@@ -7,6 +7,7 @@ class Game {
         this.score = 999 // just testing
         this.director = new Director()
         this.buildings = []
+        this.projectiles = []
     }
 }
 
@@ -142,6 +143,10 @@ class Building {
     constructor({position = {x:0, y:0}}, cost, game, range, firerate) {
         this.position = position
         this.width = 32
+        this.center = {
+            x: this.position.x + this.width / 2,
+            y: this.position.y + this.width / 2
+        }
         this.cost = cost // How expensive it is to purchase
         this.game = game // Game object
         this.range = range // How far the tower can detect enemies
@@ -167,10 +172,21 @@ class Building {
                 wave[i].center.x, wave[i].center.y)
 
             if (dist < this.range) {
-                let yDistance = wave[i].center.y - this.center.y
-                let xDistance = wave[i].center.x - this.center.x
+                let yDistance = wave[i].center.y - this.position.y
+                let xDistance = wave[i].center.x - this.position.x
                 let angle = Math.atan2(yDistance, xDistance)
 
+                let projectile = new Projectile({
+                    position: {
+                        x: this.center.x - 4,
+                        y: this.center.y - 4
+                    }                    
+                })
+                projectile.speed = 100
+                projectile.damage = 50
+                projectile.game = this.game
+
+                this.game.projectiles.push(projectile)
                 // @todo: Fire projectile at enemy
             }
         }
@@ -182,13 +198,16 @@ class Building {
 }
 
 class Projectile {
-    constructor({position = {x:0, y:0}}) {
+    constructor({position = {x:0, y:0}}, speed, damage, game) {
         this.position = position
+        this.speed = speed
+        this.damage = damage
+        this.game = game
     }
 
     update() {
-        draw()
-        checkForCollision()
+        this.draw()
+        this.checkForCollision()
     }
 
     draw() {
@@ -210,4 +229,7 @@ class Projectile {
         }
     }
 
+    distance2D(x1, y1, x2, y2) {
+        return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
+    }
 }

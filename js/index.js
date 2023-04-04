@@ -45,7 +45,7 @@ placementTilesData2D.forEach((row, y) => {
 console.log(placementTilesData2D)
 
 let wave1 = [] // Could maybe predefine these (?)
-for (let i = 1; i < 11; i++) {
+for (let i = 1; i < 2; i++) {
     const xOffset = i * 115
     wave1.push(new Enemy({
         position: { x: waypoints[0].x - xOffset, y: waypoints[0].y },
@@ -69,6 +69,10 @@ function animate() {
 
     game.buildings.forEach(building => {
         building.update()
+    })
+
+    game.projectiles.forEach(projectile => {
+        projectile.update()
     })
 }
 
