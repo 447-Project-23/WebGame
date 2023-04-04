@@ -4,7 +4,7 @@ class Game {
         this.startingHealth = 10
         this.money = 300
         this.startingMoney = 300
-        this.score = 999 // just testing
+        this.score = 0
         this.director = new Director()
         this.buildings = []
         this.projectiles = []
@@ -90,7 +90,9 @@ class Enemy {
             y: this.position.y + this.height / 2
         }
 
+        this.speed = 1
         this.health = 100 
+        this.scoreValue = 10
         this.damageValue = 1 // How many lives it takes if it reaches end
         this.moneyValue = 25 // Reward for destroying enemy
 
@@ -109,8 +111,8 @@ class Enemy {
         const yDistance = waypoint.y - this.center.y
         const xDistance = waypoint.x - this.center.x
         const angle = Math.atan2(yDistance, xDistance)
-        this.position.x += Math.cos(angle)
-        this.position.y += Math.sin(angle)
+        this.position.x += Math.cos(angle) * this.speed
+        this.position.y += Math.sin(angle) * this.speed
         this.center = {
             x: this.position.x + this.width / 2,
             y: this.position.y + this.height / 2
@@ -182,8 +184,8 @@ class Building {
                         y: this.center.y - 3
                     }                    
                 })
-                projectile.speed = 5
-                projectile.damage = 50
+                projectile.speed = 8
+                projectile.damage = 1
                 projectile.angle = angle
                 projectile.game = this.game
 
@@ -223,12 +225,26 @@ class Projectile {
         let wave = this.game.director.getCurrentWave()
 
         for (let i = 0; i < wave.length; i++) {
+            let enemy = wave[i]
             let dist = this.distance2D(
                 this.position.x, this.position.y,
-                wave[i].center.x, wave[i].center.y)
+                enemy.center.x, enemy.center.y)
 
-            if (dist < wave[i].width) {
+            if (dist < enemy.width * 0.75) {
                 // @todo: Damage enemy and destroy projectile
+                enemy.health -= this.damage
+                if (enemy.health < 1) {
+                    enemy.speed = 0
+                    enemy.position.x = -100
+                    enemy.position.y = -100
+
+                    game.score += enemy.scoreValue
+                    game.money += enemy.moneyValue
+                }
+
+                this.speed = 0
+                this.position.x = -10
+                this.position.y = -10
             }
         }
     }
