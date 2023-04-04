@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/447-Project-23/Database-Implementation#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "sqlite3": "^5.1.6"
   }

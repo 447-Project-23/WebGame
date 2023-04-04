@@ -1,3 +1,4 @@
 !.gitignore
 lib/*
 !lib/.gitkeep
+db/node_modules/*
