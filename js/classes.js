@@ -164,10 +164,14 @@ class Building {
         for (let i = 0; i < wave.length; i++) {
             let dist = this.distance2D(
                 this.position.x, this.position.y,
-                wave[i].position.x, wave[i].position.y)
+                wave[i].center.x, wave[i].center.y)
 
             if (dist < this.range) {
-                console.log("In range!")
+                let yDistance = wave[i].center.y - this.center.y
+                let xDistance = wave[i].center.x - this.center.x
+                let angle = Math.atan2(yDistance, xDistance)
+
+                // @todo: Fire projectile at enemy
             }
         }
     }
@@ -198,10 +202,10 @@ class Projectile {
         for (let i = 0; i < wave.length; i++) {
             let dist = this.distance2D(
                 this.position.x, this.position.y,
-                wave[i].position.x, wave[i].position.y)
+                wave[i].center.x, wave[i].center.y)
 
-            if (dist < this.range) {
-                console.log("Hit!")
+            if (dist < wave[i].width) {
+                // @todo: Damage enemy and destroy projectile
             }
         }
     }
