@@ -2,8 +2,8 @@ class Game {
     constructor() {
         this.health = 10
         this.startingHealth = 10
-        this.money = 500
-        this.startingMoney = 500
+        this.money = 300
+        this.startingMoney = 300
         this.score = 999 // just testing
         this.director = new Director()
     }
@@ -18,6 +18,10 @@ class Director {
 
     addWave(wave) {
         this.waves.push(wave)
+    }
+
+    getCurrentWave() {
+        return this.waves[this.currentWave]
     }
 
     startNextWave() {
@@ -82,16 +86,19 @@ class PlacementTile {
 class Enemy {
     constructor({position = { x: 0, y: 0 }}, game) {
         this.position = position
-        this.width = 60
-        this.height = 60
+        this.width = 50
+        this.height = 50
         this.waypointIndex = 0
         this.center = {
             x: this.position.x + this.width / 2,
             y: this.position.y + this.height / 2
         }
-        this.damageValue = 1
-        this.moneyValue = 25
-        this.game = game
+
+        this.health = 100 
+        this.damageValue = 1 // How many lives it takes if it reaches end
+        this.moneyValue = 25 // Reward for destroying enemy
+
+        this.game = game // Game object
     }
 
     draw() {
@@ -137,14 +144,40 @@ class Enemy {
 }
 
 class Building {
-    constructor({position = {x:0, y:0}}, cost) {
+    constructor({position = {x:0, y:0}}, cost, game, range, firerate) {
         this.position = position
         this.width = 32
-        this.cost = 50
+        this.cost = cost // How expensive it is to purchase
+        this.game = game // Game object
+        this.range = range // How far the tower can detect enemies
+        this.firerate = firerate // Fires per second
+    }
+
+    update() {
+        this.draw()
+        this.checkForEnemies()
     }
 
     draw() {
         context.fillStyle = 'blue'
         context.fillRect(this.position.x, this.position.y, this.width, 32)
+    }
+
+    checkForEnemies() {
+        let wave = this.game.director.getCurrentWave()
+
+        for (let i = 0; i < 10; i++) {
+            let dist = this.distance2D(
+                this.position.x, this.position.y,
+                wave[i].position.x, wave[i].position.y)
+
+            if (dist < this.range) {
+                console.log("In range!")
+            }
+        }
+    }
+
+    distance2D(x1, y1, x2, y2) {
+        return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
     }
 }

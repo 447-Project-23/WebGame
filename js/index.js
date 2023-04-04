@@ -47,7 +47,7 @@ console.log(placementTilesData2D)
 
 let wave1 = [] // Could maybe predefine these (?)
 for (let i = 1; i < 11; i++) {
-    const xOffset = i * 150
+    const xOffset = i * 115
     wave1.push(new Enemy({
         position: { x: waypoints[0].x - xOffset, y: waypoints[0].y },
         game: game
@@ -69,27 +69,25 @@ function animate() {
     })
 
     buildings.forEach(building => {
-        building.draw()
+        building.update()
     })
 }
 
 canvas.addEventListener('click', (event) => {
     if (activeTile && !activeTile.isOccupied) {
-        let tower = new Building ({
+        let tower = new Building({
             position: {
                 x: activeTile.position.x,
                 y: activeTile.position.y
-            },
-            cost: 50 // @todo: this is undefined when passed in, hardcoded for now
-        })
+            }
+        });
+        tower.cost = 100 // @todo: fix constructor and put these in
+        tower.game = game
+        tower.range = 300
+        tower.firerate = 1
 
         if (game.money >= tower.cost) {
-            buildings.push(new Building ({
-                    position: {
-                    x: activeTile.position.x,
-                    y: activeTile.position.y
-                }
-            }))
+            buildings.push(tower)
 
             activeTile.isOccupied = true
             game.money -= tower.cost
