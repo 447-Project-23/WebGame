@@ -6,6 +6,7 @@ class Game {
         this.startingMoney = 300
         this.score = 999 // just testing
         this.director = new Director()
+        this.buildings = []
     }
 }
 
@@ -30,12 +31,6 @@ class Director {
         })
 
         // @todo: update wave counter once the wave is finished
-    }
-}
-
-class Wave {
-    constructor() {
-        this.contents = []
     }
 }
 
@@ -166,7 +161,7 @@ class Building {
     checkForEnemies() {
         let wave = this.game.director.getCurrentWave()
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < wave.length; i++) {
             let dist = this.distance2D(
                 this.position.x, this.position.y,
                 wave[i].position.x, wave[i].position.y)
@@ -180,4 +175,35 @@ class Building {
     distance2D(x1, y1, x2, y2) {
         return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
     }
+}
+
+class Projectile {
+    constructor({position = {x:0, y:0}}) {
+        this.position = position
+    }
+
+    update() {
+        draw()
+        checkForCollision()
+    }
+
+    draw() {
+        context.fillStyle = 'black'
+        context.fillRect(this.position.x, this.position.y, 8, 8)
+    }
+
+    checkForCollision() {
+        let wave = this.game.director.getCurrentWave()
+
+        for (let i = 0; i < wave.length; i++) {
+            let dist = this.distance2D(
+                this.position.x, this.position.y,
+                wave[i].position.x, wave[i].position.y)
+
+            if (dist < this.range) {
+                console.log("Hit!")
+            }
+        }
+    }
+
 }

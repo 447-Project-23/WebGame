@@ -12,7 +12,6 @@ const placementTiles = []
 const game = new Game()
 const topbar = new InfoUI(game)
 
-const buildings = []
 let activeTile = undefined
 
 const image = new Image()
@@ -68,7 +67,7 @@ function animate() {
         tile.update(mouse)
     })
 
-    buildings.forEach(building => {
+    game.buildings.forEach(building => {
         building.update()
     })
 }
@@ -87,7 +86,7 @@ canvas.addEventListener('click', (event) => {
         tower.firerate = 1
 
         if (game.money >= tower.cost) {
-            buildings.push(tower)
+            game.buildings.push(tower)
 
             activeTile.isOccupied = true
             game.money -= tower.cost
