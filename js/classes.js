@@ -171,23 +171,23 @@ class Building {
                 this.position.x, this.position.y,
                 wave[i].center.x, wave[i].center.y)
 
-            if (dist < this.range) {
+            if (dist < this.range) { // @todo: Limit this based on firerate
                 let yDistance = wave[i].center.y - this.position.y
                 let xDistance = wave[i].center.x - this.position.x
                 let angle = Math.atan2(yDistance, xDistance)
 
                 let projectile = new Projectile({
                     position: {
-                        x: this.center.x - 4,
-                        y: this.center.y - 4
+                        x: this.center.x - 3,
+                        y: this.center.y - 3
                     }                    
                 })
-                projectile.speed = 100
+                projectile.speed = 5
                 projectile.damage = 50
+                projectile.angle = angle
                 projectile.game = this.game
 
                 this.game.projectiles.push(projectile)
-                // @todo: Fire projectile at enemy
             }
         }
     }
@@ -198,21 +198,25 @@ class Building {
 }
 
 class Projectile {
-    constructor({position = {x:0, y:0}}, speed, damage, game) {
+    constructor({position = {x:0, y:0}}, speed, damage, game, angle) {
         this.position = position
         this.speed = speed
         this.damage = damage
         this.game = game
+        this.angle = angle
     }
 
     update() {
+        this.position.x += Math.cos(this.angle) * this.speed
+        this.position.y += Math.sin(this.angle) * this.speed
+
         this.draw()
         this.checkForCollision()
     }
 
     draw() {
         context.fillStyle = 'black'
-        context.fillRect(this.position.x, this.position.y, 8, 8)
+        context.fillRect(this.position.x, this.position.y, 6, 6)
     }
 
     checkForCollision() {
