@@ -1,3 +1,28 @@
+function newUser() {
+	var toReturn = {
+		id: "",
+		level: 0,
+		score: 0,
+	};
+	return toReturn;
+}
+
+var userInfo;
+loadLocalStorage();
+save();
+
+if (!userInfo) {
+	userInfo = newUser();
+}
+
+function save() {
+  localStorage.setItem("webgame", JSON.stringify(userInfo));
+}
+
+function loadLocalStorage() {
+  userInfo = JSON.parse(localStorage.getItem('webgame'));
+}
+
 //This function is used when attempting to sign up for the first time
 async function validateSignIn() {
 	//Get the username provided
@@ -48,6 +73,10 @@ async function addUser(userName) {
 	console.log(jsonObject);
 	axios.post("http://localhost:9000/users/add/", userObject).then((res) => {
 		if (res.status == 200) {
+			userInfo.id = userName;
+			userInfo.level = 0;
+			userInfo.score = 0;
+			save();
 			document.location.href='\menu.html';
 		}
 	}).catch(error => console.log(error));
@@ -86,8 +115,12 @@ async function validateLogIn() {
 				document.getElementById("invalidLoginText").style.display = "block";
 			} else {
 				//Already a user with this name.
+				userInfo.id = userName;
+				userInfo.level = data.level;
+				userInfo.score = data.score;
+				save();
 				document.location.href='\menu.html';
-				
+
 				//If we need to use this information elsewhere, we can create global variables
 				return;
 			}
