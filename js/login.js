@@ -3,6 +3,7 @@ function newUser() {
 		id: "",
 		level: 0,
 		score: 0,
+		currentLevel: 0,
 	};
 	return toReturn;
 }

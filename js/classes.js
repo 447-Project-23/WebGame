@@ -5,6 +5,7 @@ class Game {
         this.money = 300
         this.startingMoney = 300
         this.score = 0
+        this.currentLevel = 0
         this.director = new Director()
         this.buildings = []
         this.projectiles = []
@@ -32,6 +33,18 @@ class Director {
         })
 
         // @todo: update wave counter once the wave is finished
+        if (this.waves[this.currentWave].length == 1 && this.waves[this.currentWave][0].position.x == -100) {
+          this.waves[this.currentWave] = [];
+          this.currentWave++;
+          //Check if the next wave exists
+          if (this.currentWave >= this.totalWaves) {
+            //Beat the Level, so alert win
+            alert("You won");
+
+            // @todo: Update best level, high score and return to level select
+          }
+        }
+
     }
 }
 
@@ -48,8 +61,8 @@ class InfoUI {
         context.fillRect(382, 0, 520, 40)
         context.fillStyle = "black"
         context.font = "30px serif"
-        let str = "Lives: " + game.health 
-            + " Money: " + game.money 
+        let str = "Lives: " + game.health
+            + " Money: " + game.money
             + " Wave: " + (game.director.currentWave + 1)
             + " Score: " + game.score
         context.fillText(str, 390, 30)
@@ -91,7 +104,7 @@ class Enemy {
         }
 
         this.speed = 1
-        this.health = 100 
+        this.health = 100
         this.scoreValue = 10
         this.damageValue = 1 // How many lives it takes if it reaches end
         this.moneyValue = 25 // Reward for destroying enemy
@@ -106,7 +119,7 @@ class Enemy {
 
     update() {
         this.draw()
-        
+
         const waypoint = waypoints[this.waypointIndex]
         const yDistance = waypoint.y - this.center.y
         const xDistance = waypoint.x - this.center.x
@@ -119,7 +132,7 @@ class Enemy {
         }
 
         if (
-            Math.round(this.center.x) === Math.round(waypoint.x) && 
+            Math.round(this.center.x) === Math.round(waypoint.x) &&
             Math.round(this.center.y) === Math.round(waypoint.y) &&
             this.waypointIndex < waypoints.length - 1)
             {
@@ -182,7 +195,7 @@ class Building {
                     position: {
                         x: this.center.x - 3,
                         y: this.center.y - 3
-                    }                    
+                    }
                 })
                 projectile.speed = 8
                 projectile.damage = 1
@@ -237,6 +250,7 @@ class Projectile {
                     enemy.speed = 0
                     enemy.position.x = -100
                     enemy.position.y = -100
+                    wave.splice(i, i)
 
                     game.score += enemy.scoreValue
                     game.money += enemy.moneyValue
@@ -245,6 +259,7 @@ class Projectile {
                 this.speed = 0
                 this.position.x = -10
                 this.position.y = -10
+                delete this
             }
         }
     }
