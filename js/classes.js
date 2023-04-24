@@ -6,17 +6,18 @@ class Game {
         this.startingMoney = 300
         this.score = 0
         this.currentLevel = 0
-        this.director = new Director()
+        this.director = new Director(this)
         this.buildings = []
         this.projectiles = []
     }
 }
 
 class Director {
-    constructor() {
+    constructor(game) {
         this.waves = []
         this.currentWave = 0
         this.totalWaves = 5
+        this.game = game
     }
 
     addWave(wave) {
@@ -32,7 +33,6 @@ class Director {
             enemy.update()
         })
 
-        // @todo: update wave counter once the wave is finished
         if (this.waves[this.currentWave].length == 1 && this.waves[this.currentWave][0].position.x == -100) {
           this.waves[this.currentWave] = [];
           this.currentWave++;
@@ -41,7 +41,19 @@ class Director {
             //Beat the Level, so alert win
             alert("You won");
 
-            // @todo: Update best level, high score and return to level select
+            loadLocalStorage();
+            if (userInfo.currentLevel < userInfo.level) {
+              if (userInfo.currentLevel == 4) {
+                userInfo.currentLevel += game.score;
+              }
+                document.location.href='\levelselect.html';
+            } else if (userInfo.currentLevel == userInfo.level) {
+              userInfo.level ++;
+              userInfo.score += game.score;
+              document.location.href='\levelselect.html';
+            } else {
+              document.location.href='/levelselect.html';
+            }
           }
         }
 
