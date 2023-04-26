@@ -25,6 +25,14 @@ class Director {
           damageValue: 1,
           moneyValue: 25,
         }
+        //This the scaling of enemy stats per wave
+        this.enemyScaling = {
+          speed: 1.0,
+          health: 1.0,
+          scoreValue: 1.0,
+          damageValue: 1.0,
+          moneyValue: 1.0,
+        }
     }
 
     addWave(wave) {
@@ -52,13 +60,16 @@ class Director {
             if (userInfo.currentLevel < userInfo.level) {
               if (userInfo.currentLevel == 4) {
                 userInfo.currentLevel += game.score;
+                save();
               }
-                document.location.href='\levelselect.html';
-            } else if (userInfo.currentLevel == userInfo.level) {
+              document.location.href='\levelselect.html';
+            } else if (userInfo.currentLevel == (userInfo.level + 1)) {
               userInfo.level ++;
               userInfo.score += game.score;
+              save();
               document.location.href='\levelselect.html';
             } else {
+              //Current Level >= Best Level
               document.location.href='\levelselect.html';
             }
           }

@@ -20,12 +20,68 @@ This is things like # of waves, enemy stats, etc.
 */
 if (userInfo.currentLevel == 1) {
   game.director.totalWaves = 5
+  game.director.enemyStats = {
+    speed: 1,
+    health: 100,
+    scoreValue: 10,
+    damageValue: 1,
+    moneyValue: 25,
+  }
+  game.director.enemyScaling = {
+    speed: 1.0,
+    health: 1.0,
+    scoreValue: 1.0,
+    damageValue: 1.0,
+    moneyValue: 1.0,
+  }
 } else if (userInfo.currentLevel == 2) {
   game.director.totalWaves = 10
+  game.director.enemyStats = {
+    speed: 2,
+    health: 200,
+    scoreValue: 10,
+    damageValue: 1,
+    moneyValue: 25,
+  }
+  game.director.enemyScaling = {
+    speed: 1.0,
+    health: 1.0,
+    scoreValue: 1.0,
+    damageValue: 1.0,
+    moneyValue: 1.0,
+  }
 } else if (userInfo.currentLevel == 3) {
   game.director.totalWaves = 20
+  game.director.enemyStats = {
+    speed: 3,
+    health: 300,
+    scoreValue: 30,
+    damageValue: 1,
+    moneyValue: 25,
+  }
+  game.director.enemyScaling = {
+    speed: 1.0,
+    health: 1.0,
+    scoreValue: 1.0,
+    damageValue: 1.0,
+    moneyValue: 1.0,
+  }
 } else {
   game.director.totalWaves = 100000000000
+  game.director.enemyStats = {
+    speed: 1,
+    health: 100,
+    scoreValue: 10,
+    damageValue: 1,
+    moneyValue: 25,
+  }
+  game.director.enemyScaling = {
+    speed: 1.01,
+    health: 1.1,
+    scoreValue: 1.1,
+    damageValue: 1,
+    moneyValue: 1.1,
+  }
 }
 
 let activeTile = undefined
@@ -70,11 +126,11 @@ for (let j = 0; j < game.director.totalWaves; j++) {
             y: waypoints[0].y,
           },
           game,
-          game.director.enemyStats.speed,
-          game.director.enemyStats.health,
-          game.director.enemyStats.scoreValue,
-          game.director.enemyStats.damageValue,
-          game.director.enemyStats.moneyValue,
+          (game.director.enemyStats.speed * Math.pow(game.director.enemyScaling.speed, game.director.currentWave)),
+          (game.director.enemyStats.health * Math.pow(game.director.enemyScaling.health, game.director.currentWave)),
+          (game.director.enemyStats.scoreValue * Math.pow(game.director.enemyScaling.scoreValue, game.director.currentWave)),
+          (game.director.enemyStats.damageValue * Math.pow(game.director.enemyScaling.damageValue, game.director.currentWave)),
+          (game.director.enemyStats.moneyValue * Math.pow(game.director.enemyScaling.moneyValue, game.director.currentWave)),
       ))
   }
   game.director.addWave(wave)
