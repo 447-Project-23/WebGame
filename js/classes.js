@@ -18,6 +18,13 @@ class Director {
         this.currentWave = 0
         this.totalWaves = 5
         this.game = game
+        this.enemyStats = {
+          speed: 1,
+          health: 100,
+          scoreValue: 10,
+          damageValue: 1,
+          moneyValue: 25,
+        }
     }
 
     addWave(wave) {
@@ -52,7 +59,7 @@ class Director {
               userInfo.score += game.score;
               document.location.href='\levelselect.html';
             } else {
-              document.location.href='/levelselect.html';
+              document.location.href='\levelselect.html';
             }
           }
         }
@@ -105,7 +112,7 @@ class PlacementTile {
 }
 
 class Enemy {
-    constructor({position = { x: 0, y: 0 }}, game) {
+    constructor(position = { x: 0, y: 0 }, game, speed=1, health=100, scoreValue=10, damageValue=1, moneyValue=25) {
         this.position = position
         this.width = 50
         this.height = 50
@@ -115,11 +122,11 @@ class Enemy {
             y: this.position.y + this.height / 2
         }
 
-        this.speed = 1
-        this.health = 100
-        this.scoreValue = 10
-        this.damageValue = 1 // How many lives it takes if it reaches end
-        this.moneyValue = 25 // Reward for destroying enemy
+        this.speed = speed
+        this.health = health
+        this.scoreValue = scoreValue
+        this.damageValue = damageValue // How many lives it takes if it reaches end
+        this.moneyValue = moneyValue // Reward for destroying enemy
 
         this.game = game // Game object
     }

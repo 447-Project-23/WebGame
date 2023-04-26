@@ -14,6 +14,20 @@ const placementTiles = []
 const game = new Game()
 const topbar = new InfoUI(game)
 
+/*
+Set the information about the level based on current level
+This is things like # of waves, enemy stats, etc.
+*/
+if (userInfo.currentLevel == 1) {
+  game.director.totalWaves = 5
+} else if (userInfo.currentLevel == 2) {
+  game.director.totalWaves = 10
+} else if (userInfo.currentLevel == 3) {
+  game.director.totalWaves = 20
+} else {
+  game.director.totalWaves = 100000000000
+}
+
 let activeTile = undefined
 
 const image = new Image()
@@ -46,14 +60,22 @@ placementTilesData2D.forEach((row, y) => {
 console.log(placementTilesData2D)
 
 
-for (let j = 1; j < 6; j++) {
+for (let j = 0; j < game.director.totalWaves; j++) {
   let wave = []
   for (let i = 1; i < 11; i++) {
       const xOffset = i * 115
-      wave.push(new Enemy({
-          position: { x: waypoints[0].x - xOffset, y: waypoints[0].y },
-          game: game
-      }))
+      wave.push(new Enemy(
+          {
+            x: waypoints[0].x - xOffset,
+            y: waypoints[0].y,
+          },
+          game,
+          game.director.enemyStats.speed,
+          game.director.enemyStats.health,
+          game.director.enemyStats.scoreValue,
+          game.director.enemyStats.damageValue,
+          game.director.enemyStats.moneyValue,
+      ))
   }
   game.director.addWave(wave)
 }
