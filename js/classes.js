@@ -246,27 +246,6 @@ class Building {
     distance2D(x1, y1, x2, y2) {
         return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
     }
-
-    async fire(i) {
-        let yDistance = wave[i].center.y - this.position.y
-        let xDistance = wave[i].center.x - this.position.x
-        let angle = Math.atan2(yDistance, xDistance)
-
-        sleep(1000 / firerate)
-
-        let projectile = new Projectile({
-            position: {
-                x: this.center.x - 3,
-                y: this.center.y - 3
-            }
-        })
-        projectile.speed = 8
-        projectile.damage = 1
-        projectile.angle = angle
-        projectile.game = this.game
-
-        this.game.projectiles.push(projectile)
-    }
 }
 
 class Projectile {
