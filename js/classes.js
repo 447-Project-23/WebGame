@@ -72,9 +72,26 @@ class Director {
               //Current Level >= Best Level
               document.location.href='\levelselect.html';
             }
-          }
+          } else {
+                let wave = []
+                  for (let i = 1; i < 11; i++) {
+                      const xOffset = i * 115
+                      wave.push(new Enemy(
+                          {
+                            x: waypoints[0].x - xOffset,
+                            y: waypoints[0].y,
+                          },
+                          game,
+                          (game.director.enemyStats.speed * Math.pow(game.director.enemyScaling.speed, game.director.currentWave)),
+                          (game.director.enemyStats.health * Math.pow(game.director.enemyScaling.health, game.director.currentWave)),
+                          (game.director.enemyStats.scoreValue * Math.pow(game.director.enemyScaling.scoreValue, game.director.currentWave)),
+                          (game.director.enemyStats.damageValue * Math.pow(game.director.enemyScaling.damageValue, game.director.currentWave)),
+                          (game.director.enemyStats.moneyValue * Math.pow(game.director.enemyScaling.moneyValue, game.director.currentWave)),
+                      ))
+                    }
+                game.director.addWave(wave)
+            }
         }
-
     }
 }
 
