@@ -162,8 +162,8 @@ class Enemy {
         }
 
         if (
-            Math.round(this.center.x) === Math.round(waypoint.x) &&
-            Math.round(this.center.y) === Math.round(waypoint.y) &&
+            Math.abs(Math.round(this.center.x) - Math.round(waypoint.x)) < 2 &&
+            Math.abs(Math.round(this.center.y) - Math.round(waypoint.y)) < 2 &&
             this.waypointIndex < waypoints.length - 1)
             {
                 this.waypointIndex++
@@ -178,7 +178,10 @@ class Enemy {
                     // early, so it will still be on screen when it updates
                     // the game objects health.
                     // @todo: fix that
-                    if (game.health < 1) alert("You lost!")
+                    if (game.health < 1) {
+                        alert("You lost!")
+                        document.location.href='\levelselect.html';
+                    }
                 }
         }
     }
@@ -203,7 +206,6 @@ class Building {
         this.draw()
         this.checkForEnemies()
         this.nextFire--
-        console.log(this.nextFire)
     }
 
     draw() {
