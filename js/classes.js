@@ -196,11 +196,14 @@ class Building {
         this.game = game // Game object
         this.range = range // How far the tower can detect enemies
         this.firerate = firerate // Fires per second
+        this.nextFire = -1
     }
 
     update() {
         this.draw()
         this.checkForEnemies()
+        this.nextFire--
+        console.log(this.nextFire)
     }
 
     draw() {
@@ -216,7 +219,7 @@ class Building {
                 this.position.x, this.position.y,
                 wave[i].center.x, wave[i].center.y)
 
-            if (dist < this.range) { // @todo: Limit this based on firerate
+            if (dist < this.range) {
                 let yDistance = wave[i].center.y - this.position.y
                 let xDistance = wave[i].center.x - this.position.x
                 let angle = Math.atan2(yDistance, xDistance)
@@ -228,11 +231,14 @@ class Building {
                     }
                 })
                 projectile.speed = 8
-                projectile.damage = 1
+                projectile.damage = 25
                 projectile.angle = angle
                 projectile.game = this.game
 
-                this.game.projectiles.push(projectile)
+                if (this.nextFire < 0) {
+                    this.game.projectiles.push(projectile)
+                    this.nextFire = this.firerate
+                }
             }
         }
     }
@@ -240,15 +246,37 @@ class Building {
     distance2D(x1, y1, x2, y2) {
         return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
     }
+
+    async fire(i) {
+        let yDistance = wave[i].center.y - this.position.y
+        let xDistance = wave[i].center.x - this.position.x
+        let angle = Math.atan2(yDistance, xDistance)
+
+        sleep(1000 / firerate)
+
+        let projectile = new Projectile({
+            position: {
+                x: this.center.x - 3,
+                y: this.center.y - 3
+            }
+        })
+        projectile.speed = 8
+        projectile.damage = 1
+        projectile.angle = angle
+        projectile.game = this.game
+
+        this.game.projectiles.push(projectile)
+    }
 }
 
 class Projectile {
-    constructor({position = {x:0, y:0}}, speed, damage, game, angle) {
+    constructor({position = {x:0, y:0}}, speed, damage, game, angle, size) {
         this.position = position
         this.speed = speed
         this.damage = damage
         this.game = game
         this.angle = angle
+        this.size = size
     }
 
     update() {

@@ -169,7 +169,7 @@ canvas.addEventListener('click', (event) => {
         tower.cost = 100 // @todo: fix constructor and put these in
         tower.game = game
         tower.range = 225
-        tower.firerate = 1
+        tower.firerate = 100
 
         if (game.money >= tower.cost) {
             game.buildings.push(tower)
