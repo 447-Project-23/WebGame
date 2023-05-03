@@ -103,16 +103,16 @@ class InfoUI {
     draw() {
         // Menu testing
         context.fillStyle = "black"
-        context.fillRect(380, 0, 524, 42)
+        context.fillRect(374, 0, 554, 42)
         context.fillStyle = "#f2b230"
-        context.fillRect(382, 0, 520, 40)
+        context.fillRect(376, 0, 550, 40)
         context.fillStyle = "black"
         context.font = "30px serif"
         let str = "Lives: " + game.health
             + " Money: " + game.money
             + " Wave: " + (game.director.currentWave + 1)
             + " Score: " + game.score
-        context.fillText(str, 390, 30)
+        context.fillText(str, 386, 30)
     }
 }
 
@@ -189,6 +189,10 @@ class Enemy {
                 if (this.waypointIndex == waypoints.length - 1) {
                     game.health -= this.damageValue
 
+                    this.speed = 0
+                    this.position.x = -100
+                    this.position.y = -100
+
                     delete this // @todo: figure out how to actually remove an enemy
 
                     // The last enemy seems to trigger its last waypoint
@@ -217,6 +221,8 @@ class Building {
         this.range = range // How far the tower can detect enemies
         this.firerate = firerate // Fires per second
         this.nextFire = -1
+        this.level = 1
+        this.color = 'blue'
     }
 
     update() {
@@ -226,7 +232,7 @@ class Building {
     }
 
     draw() {
-        context.fillStyle = 'blue'
+        context.fillStyle = this.color
         context.fillRect(this.position.x, this.position.y, this.width, 32)
     }
 
@@ -249,8 +255,8 @@ class Building {
                         y: this.center.y - 3
                     }
                 })
-                projectile.speed = 8
-                projectile.damage = 25
+                projectile.speed = 8 * 1 + this.level / 4 //change these 
+                projectile.damage = 25 * 1 + this.level / 4
                 projectile.angle = angle
                 projectile.game = this.game
 
@@ -264,6 +270,25 @@ class Building {
 
     distance2D(x1, y1, x2, y2) {
         return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
+    }
+
+    upgrade() {
+        this.level++
+        this.firerate -= 22
+        this.range += 30
+        this.cost *= 2
+
+        switch (this.level) {
+            case 2:
+                this.color = 'green'
+                break
+            case 3:
+                this.color = 'yellow'
+                break
+            case 4:
+                this.color = 'orange'
+                break
+        }
     }
 }
 
@@ -306,7 +331,7 @@ class Projectile {
                     enemy.speed = 0
                     enemy.position.x = -100
                     enemy.position.y = -100
-                    wave.splice(i, i)
+                    //wave.splice(i, i)
 
                     game.score += enemy.scoreValue
                     game.money += enemy.moneyValue

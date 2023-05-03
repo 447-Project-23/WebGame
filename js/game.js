@@ -173,6 +173,16 @@ canvas.addEventListener('click', (event) => {
             activeTile.isOccupied = true
             game.money -= tower.cost
         }
+    } else if (activeTile && activeTile.isOccupied) {
+        for (let i = 0; i < game.buildings.length; i++) {
+            if (game.buildings[i].position.x == activeTile.position.x && game.buildings[i].position.y == activeTile.position.y) {
+                if (game.buildings[i].cost < game.money) {
+                    if (game.buildings[i].level >= 4) continue
+                    game.money -= game.buildings[i].cost
+                    game.buildings[i].upgrade()
+                }
+            }
+        }
     }
 })
 
@@ -181,9 +191,6 @@ window.addEventListener('mousemove', (event) => {
     mouse.y = event.clientY
 
     activeTile = null
-
-    // @todo: Fix cursor coordinates
-    // Game doesn't account for centering of canvas, so they are offset
 
     for (let i = 0; i < placementTiles.length; i++) {
         const tile = placementTiles[i]
