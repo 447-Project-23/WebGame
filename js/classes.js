@@ -103,16 +103,16 @@ class InfoUI {
     draw() {
         // Menu testing
         context.fillStyle = "black"
-        context.fillRect(380, 0, 524, 42)
+        context.fillRect(374, 0, 554, 42)
         context.fillStyle = "#f2b230"
-        context.fillRect(382, 0, 520, 40)
+        context.fillRect(376, 0, 550, 40)
         context.fillStyle = "black"
         context.font = "30px serif"
         let str = "Lives: " + game.health
             + " Money: " + game.money
             + " Wave: " + (game.director.currentWave + 1)
             + " Score: " + game.score
-        context.fillText(str, 390, 30)
+        context.fillText(str, 386, 30)
     }
 }
 
