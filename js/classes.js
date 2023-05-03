@@ -189,6 +189,10 @@ class Enemy {
                 if (this.waypointIndex == waypoints.length - 1) {
                     game.health -= this.damageValue
 
+                    this.speed = 0
+                    this.position.x = -100
+                    this.position.y = -100
+
                     delete this // @todo: figure out how to actually remove an enemy
 
                     // The last enemy seems to trigger its last waypoint
@@ -217,6 +221,7 @@ class Building {
         this.range = range // How far the tower can detect enemies
         this.firerate = firerate // Fires per second
         this.nextFire = -1
+        this.level = 1
     }
 
     update() {
@@ -306,7 +311,7 @@ class Projectile {
                     enemy.speed = 0
                     enemy.position.x = -100
                     enemy.position.y = -100
-                    wave.splice(i, i)
+                    //wave.splice(i, i)
 
                     game.score += enemy.scoreValue
                     game.money += enemy.moneyValue
