@@ -2,7 +2,7 @@ class Game {
     constructor() {
         this.health = 10
         this.startingHealth = 10
-        this.money = 300
+        this.money = 20000
         this.startingMoney = 300
         this.score = 0
         this.currentLevel = 0
@@ -222,6 +222,7 @@ class Building {
         this.firerate = firerate // Fires per second
         this.nextFire = -1
         this.level = 1
+        this.color = 'blue'
     }
 
     update() {
@@ -231,7 +232,7 @@ class Building {
     }
 
     draw() {
-        context.fillStyle = 'blue'
+        context.fillStyle = this.color
         context.fillRect(this.position.x, this.position.y, this.width, 32)
     }
 
@@ -254,8 +255,8 @@ class Building {
                         y: this.center.y - 3
                     }
                 })
-                projectile.speed = 8 * 1 + this.level / 8 //change these 
-                projectile.damage = 25 * 1 + this.level / 6
+                projectile.speed = 8 * 1 + this.level / 4 //change these 
+                projectile.damage = 25 * 1 + this.level / 4
                 projectile.angle = angle
                 projectile.game = this.game
 
@@ -273,8 +274,21 @@ class Building {
 
     upgrade() {
         this.level++
-        this.firerate += 2
+        this.firerate -= 22
         this.range += 30
+        this.cost *= 2
+
+        switch (this.level) {
+            case 2:
+                this.color = 'green'
+                break
+            case 3:
+                this.color = 'yellow'
+                break
+            case 4:
+                this.color = 'orange'
+                break
+        }
     }
 }
 
