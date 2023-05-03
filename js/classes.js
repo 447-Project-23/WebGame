@@ -2,7 +2,7 @@ class Game {
     constructor() {
         this.health = 10
         this.startingHealth = 10
-        this.money = 20000
+        this.money = 300
         this.startingMoney = 300
         this.score = 0
         this.currentLevel = 0
