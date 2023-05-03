@@ -18,6 +18,7 @@ const topbar = new InfoUI(game)
 Set the information about the level based on current level
 This is things like # of waves, enemy stats, etc.
 */
+
 if (userInfo.currentLevel == 1) {
   game.director.totalWaves = 5
   game.director.enemyStats = {
@@ -67,7 +68,7 @@ if (userInfo.currentLevel == 1) {
     moneyValue: 1.0,
   }
 } else {
-  game.director.totalWaves = 100000000000
+  game.director.totalWaves = 100
   game.director.enemyStats = {
     speed: 1,
     health: 100,
@@ -76,11 +77,11 @@ if (userInfo.currentLevel == 1) {
     moneyValue: 25,
   }
   game.director.enemyScaling = {
-    speed: 1.01,
+    speed: 1.1,
     health: 1.1,
-    scoreValue: 1.1,
+    scoreValue: 1,
     damageValue: 1,
-    moneyValue: 1.1,
+    moneyValue: 1,
   }
 }
 
@@ -113,35 +114,28 @@ placementTilesData2D.forEach((row, y) => {
     })
 })
 
-console.log(placementTilesData2D)
-
-
-for (let j = 0; j < game.director.totalWaves; j++) {
-  let wave = []
-  for (let i = 1; i < 11; i++) {
-      const xOffset = i * 115
-      wave.push(new Enemy(
-          {
-            x: waypoints[0].x - xOffset,
-            y: waypoints[0].y,
-          },
-          game,
-          (game.director.enemyStats.speed * Math.pow(game.director.enemyScaling.speed, game.director.currentWave)),
-          (game.director.enemyStats.health * Math.pow(game.director.enemyScaling.health, game.director.currentWave)),
-          (game.director.enemyStats.scoreValue * Math.pow(game.director.enemyScaling.scoreValue, game.director.currentWave)),
-          (game.director.enemyStats.damageValue * Math.pow(game.director.enemyScaling.damageValue, game.director.currentWave)),
-          (game.director.enemyStats.moneyValue * Math.pow(game.director.enemyScaling.moneyValue, game.director.currentWave)),
-      ))
-  }
-  game.director.addWave(wave)
-}
+let wave = []
+for (let i = 1; i < 11; i++) {
+    const xOffset = i * 115
+    wave.push(new Enemy(
+    {
+        x: waypoints[0].x - xOffset,
+        y: waypoints[0].y,
+    },
+    game,
+    (game.director.enemyStats.speed * Math.pow(game.director.enemyScaling.speed, game.director.currentWave)),
+    (game.director.enemyStats.health * Math.pow(game.director.enemyScaling.health, game.director.currentWave)),
+    (game.director.enemyStats.scoreValue * Math.pow(game.director.enemyScaling.scoreValue, game.director.currentWave)),
+    (game.director.enemyStats.damageValue * Math.pow(game.director.enemyScaling.damageValue, game.director.currentWave)),
+    (game.director.enemyStats.moneyValue * Math.pow(game.director.enemyScaling.moneyValue, game.director.currentWave)),
+  ))
+}   
+game.director.addWave(wave)
 
 function animate() {
     requestAnimationFrame(animate)
 
     context.drawImage(image, 0, 0)
-
-    topbar.draw()
 
     game.director.startNextWave()
 
@@ -156,6 +150,8 @@ function animate() {
     game.projectiles.forEach(projectile => {
         projectile.update()
     })
+
+    topbar.draw()
 }
 
 canvas.addEventListener('click', (event) => {
@@ -169,7 +165,7 @@ canvas.addEventListener('click', (event) => {
         tower.cost = 100 // @todo: fix constructor and put these in
         tower.game = game
         tower.range = 225
-        tower.firerate = 1
+        tower.firerate = 100
 
         if (game.money >= tower.cost) {
             game.buildings.push(tower)

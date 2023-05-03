@@ -72,9 +72,26 @@ class Director {
               //Current Level >= Best Level
               document.location.href='\levelselect.html';
             }
-          }
+          } else {
+                let wave = []
+                  for (let i = 1; i < 11; i++) {
+                      const xOffset = i * 115
+                      wave.push(new Enemy(
+                          {
+                            x: waypoints[0].x - xOffset,
+                            y: waypoints[0].y,
+                          },
+                          game,
+                          (game.director.enemyStats.speed * Math.pow(game.director.enemyScaling.speed, game.director.currentWave)),
+                          (game.director.enemyStats.health * Math.pow(game.director.enemyScaling.health, game.director.currentWave)),
+                          (game.director.enemyStats.scoreValue * Math.pow(game.director.enemyScaling.scoreValue, game.director.currentWave)),
+                          (game.director.enemyStats.damageValue * Math.pow(game.director.enemyScaling.damageValue, game.director.currentWave)),
+                          (game.director.enemyStats.moneyValue * Math.pow(game.director.enemyScaling.moneyValue, game.director.currentWave)),
+                      ))
+                    }
+                game.director.addWave(wave)
+            }
         }
-
     }
 }
 
@@ -162,8 +179,8 @@ class Enemy {
         }
 
         if (
-            Math.round(this.center.x) === Math.round(waypoint.x) &&
-            Math.round(this.center.y) === Math.round(waypoint.y) &&
+            Math.abs(Math.round(this.center.x) - Math.round(waypoint.x)) < 2 &&
+            Math.abs(Math.round(this.center.y) - Math.round(waypoint.y)) < 2 &&
             this.waypointIndex < waypoints.length - 1)
             {
                 this.waypointIndex++
@@ -178,7 +195,10 @@ class Enemy {
                     // early, so it will still be on screen when it updates
                     // the game objects health.
                     // @todo: fix that
-                    if (game.health < 1) alert("You lost!")
+                    if (game.health < 1) {
+                        alert("You lost!")
+                        document.location.href='\levelselect.html';
+                    }
                 }
         }
     }
@@ -196,11 +216,13 @@ class Building {
         this.game = game // Game object
         this.range = range // How far the tower can detect enemies
         this.firerate = firerate // Fires per second
+        this.nextFire = -1
     }
 
     update() {
         this.draw()
         this.checkForEnemies()
+        this.nextFire--
     }
 
     draw() {
@@ -216,7 +238,7 @@ class Building {
                 this.position.x, this.position.y,
                 wave[i].center.x, wave[i].center.y)
 
-            if (dist < this.range) { // @todo: Limit this based on firerate
+            if (dist < this.range) {
                 let yDistance = wave[i].center.y - this.position.y
                 let xDistance = wave[i].center.x - this.position.x
                 let angle = Math.atan2(yDistance, xDistance)
@@ -228,11 +250,14 @@ class Building {
                     }
                 })
                 projectile.speed = 8
-                projectile.damage = 1
+                projectile.damage = 25
                 projectile.angle = angle
                 projectile.game = this.game
 
-                this.game.projectiles.push(projectile)
+                if (this.nextFire < 0) {
+                    this.game.projectiles.push(projectile)
+                    this.nextFire = this.firerate
+                }
             }
         }
     }
@@ -243,12 +268,13 @@ class Building {
 }
 
 class Projectile {
-    constructor({position = {x:0, y:0}}, speed, damage, game, angle) {
+    constructor({position = {x:0, y:0}}, speed, damage, game, angle, size) {
         this.position = position
         this.speed = speed
         this.damage = damage
         this.game = game
         this.angle = angle
+        this.size = size
     }
 
     update() {
