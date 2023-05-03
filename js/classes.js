@@ -254,8 +254,8 @@ class Building {
                         y: this.center.y - 3
                     }
                 })
-                projectile.speed = 8
-                projectile.damage = 25
+                projectile.speed = 8 * 1 + this.level / 8 //change these 
+                projectile.damage = 25 * 1 + this.level / 6
                 projectile.angle = angle
                 projectile.game = this.game
 
@@ -269,6 +269,12 @@ class Building {
 
     distance2D(x1, y1, x2, y2) {
         return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
+    }
+
+    upgrade() {
+        this.level++
+        this.firerate += 2
+        this.range += 30
     }
 }
 

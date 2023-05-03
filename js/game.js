@@ -182,9 +182,6 @@ window.addEventListener('mousemove', (event) => {
 
     activeTile = null
 
-    // @todo: Fix cursor coordinates
-    // Game doesn't account for centering of canvas, so they are offset
-
     for (let i = 0; i < placementTiles.length; i++) {
         const tile = placementTiles[i]
 
