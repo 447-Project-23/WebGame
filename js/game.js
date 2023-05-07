@@ -20,7 +20,7 @@ This is things like # of waves, enemy stats, etc.
 */
 
 if (userInfo.currentLevel == 1) {
-  game.director.totalWaves = 5
+  game.director.totalWaves = 1
   game.director.enemyStats = {
     speed: 1,
     health: 100,

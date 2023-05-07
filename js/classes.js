@@ -44,11 +44,17 @@ class Director {
     }
 
     startNextWave() {
+        let numDead = 0;
+        let numTotal = this.waves[this.currentWave].length;
+
         this.waves[this.currentWave].forEach(enemy => {
-            enemy.update()
+            if (enemy.speed == 0 && enemy.position.x == -1000 && enemy.position.y == -1000) {
+                numDead ++;
+            }
+            enemy.update();
         })
 
-        if (this.waves[this.currentWave].length == 1 && this.waves[this.currentWave][0].position.x == -100) {
+        if (numDead == numTotal) {
           this.waves[this.currentWave] = [];
           this.currentWave++;
           //Check if the next wave exists
@@ -57,19 +63,17 @@ class Director {
             alert("You won");
 
             loadLocalStorage();
-            if (userInfo.currentLevel < userInfo.level) {
-              if (userInfo.currentLevel == 4) {
-                userInfo.currentLevel += game.score;
+            if (userInfo.currentLevel <= userInfo.level) {
+                userInfo.score += game.score;
                 save();
-              }
-              document.location.href='\levelselect.html';
+                updateUserInfo(userInfo.id, userInfo.level, userInfo.score);
             } else if (userInfo.currentLevel == (userInfo.level + 1)) {
               userInfo.level ++;
               userInfo.score += game.score;
               save();
-              document.location.href='\levelselect.html';
+              updateUserInfo(userInfo.id, userInfo.level, userInfo.score);
             } else {
-              //Current Level >= Best Level
+              //Current Level > Best Level + 1 [Note Possible, so definitely cheating]
               document.location.href='\levelselect.html';
             }
           } else {
@@ -190,8 +194,8 @@ class Enemy {
                     game.health -= this.damageValue
 
                     this.speed = 0
-                    this.position.x = -100
-                    this.position.y = -100
+                    this.position.x = -1000
+                    this.position.y = -1000
 
                     delete this // @todo: figure out how to actually remove an enemy
 
@@ -329,8 +333,8 @@ class Projectile {
                 enemy.health -= this.damage
                 if (enemy.health < 1) {
                     enemy.speed = 0
-                    enemy.position.x = -100
-                    enemy.position.y = -100
+                    enemy.position.x = -1000
+                    enemy.position.y = -1000
                     //wave.splice(i, i)
 
                     game.score += enemy.scoreValue
