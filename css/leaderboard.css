@@ -1,0 +1,6 @@
+body {
+	overflow: hidden;
+	background-image: url("../img/menu_background.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
