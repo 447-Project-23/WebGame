@@ -44,11 +44,17 @@ class Director {
     }
 
     startNextWave() {
+        let numDead = 0;
+        let numTotal = this.waves[this.currentWave].length;
+
         this.waves[this.currentWave].forEach(enemy => {
-            enemy.update()
+            if (enemy.speed == 0 && enemy.position.x == -1000 && enemy.position.y == -1000) {
+                numDead ++;
+            }
+            enemy.update();
         })
 
-        if (this.waves[this.currentWave].length == 1 && this.waves[this.currentWave][0].position.x == -100) {
+        if (numDead == numTotal) {
           this.waves[this.currentWave] = [];
           this.currentWave++;
           //Check if the next wave exists
@@ -190,8 +196,8 @@ class Enemy {
                     game.health -= this.damageValue
 
                     this.speed = 0
-                    this.position.x = -100
-                    this.position.y = -100
+                    this.position.x = -1000
+                    this.position.y = -1000
 
                     delete this // @todo: figure out how to actually remove an enemy
 
@@ -329,8 +335,8 @@ class Projectile {
                 enemy.health -= this.damage
                 if (enemy.health < 1) {
                     enemy.speed = 0
-                    enemy.position.x = -100
-                    enemy.position.y = -100
+                    enemy.position.x = -1000
+                    enemy.position.y = -1000
                     //wave.splice(i, i)
 
                     game.score += enemy.scoreValue
