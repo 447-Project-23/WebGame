@@ -63,19 +63,17 @@ class Director {
             alert("You won");
 
             loadLocalStorage();
-            if (userInfo.currentLevel < userInfo.level) {
-              if (userInfo.currentLevel == 4) {
-                userInfo.currentLevel += game.score;
+            if (userInfo.currentLevel <= userInfo.level) {
+                userInfo.score += game.score;
                 save();
-              }
-              document.location.href='\levelselect.html';
+                updateUserInfo(userInfo.id, userInfo.level, userInfo.score);
             } else if (userInfo.currentLevel == (userInfo.level + 1)) {
               userInfo.level ++;
               userInfo.score += game.score;
               save();
-              document.location.href='\levelselect.html';
+              updateUserInfo(userInfo.id, userInfo.level, userInfo.score);
             } else {
-              //Current Level >= Best Level
+              //Current Level > Best Level + 1 [Note Possible, so definitely cheating]
               document.location.href='\levelselect.html';
             }
           } else {

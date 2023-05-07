@@ -128,3 +128,13 @@ async function validateLogIn() {
 		});
 	}
 }
+
+function updateUserInfo(userName, curLevel, curScore) {
+	let userObject = {id: userName, level: curLevel, score: curScore};
+	axios.put("http://localhost:9000/users/update/" + userName, userObject).then((res) => {
+		if (res.status == 200) {
+			console.log("Update successful")
+            document.location.href='\levelselect.html';
+		}
+	}).catch(error => console.log(error));
+}
