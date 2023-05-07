@@ -1,4 +1,16 @@
 loadLocalStorage();
+//Update the information again here just in case [also used specifically if the player lost on endless mode]
+//If we try to update on endless mode, it causes lots of bugs, so we do it here instead, as the level does not need changing
+updateUserInfoLevel(userInfo.id, userInfo.level, userInfo.score);
+function updateUserInfoLevel(userName, curLevel, curScore) {
+	let userObject = {id: userName, level: curLevel, score: curScore};
+	axios.put("http://localhost:9000/users/update/" + userName, userObject).then((res) => {
+		if (res.status == 200) {
+			console.log("Update successful")
+		}
+	}).catch(error => console.log(error));
+}
+
 
 function loadLevelSelect() {
   document.getElementById("level1").classList.remove("disabled");

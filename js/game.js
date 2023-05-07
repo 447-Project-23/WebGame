@@ -21,12 +21,14 @@ This is things like # of waves, enemy stats, etc.
 
 if (userInfo.currentLevel == 1) {
   game.director.totalWaves = 5
+  game.money = 200
   game.director.enemyStats = {
     speed: 1,
     health: 100,
     scoreValue: 10,
     damageValue: 1,
     moneyValue: 25,
+    enemies: 10,
   }
   game.director.enemyScaling = {
     speed: 1.0,
@@ -34,54 +36,64 @@ if (userInfo.currentLevel == 1) {
     scoreValue: 1.0,
     damageValue: 1.0,
     moneyValue: 1.0,
+    enemies: 2,
   }
 } else if (userInfo.currentLevel == 2) {
   game.director.totalWaves = 10
+  game.money = 700
   game.director.enemyStats = {
-    speed: 2,
+    speed: 1.5,
     health: 200,
-    scoreValue: 10,
+    scoreValue: 15,
     damageValue: 1,
     moneyValue: 25,
+    enemies: 10,
   }
   game.director.enemyScaling = {
-    speed: 1.0,
-    health: 1.0,
+    speed: 1.05,
+    health: 1.05,
     scoreValue: 1.0,
     damageValue: 1.0,
     moneyValue: 1.0,
+    enemies: 5,
   }
 } else if (userInfo.currentLevel == 3) {
   game.director.totalWaves = 20
+  game.money = 1350
   game.director.enemyStats = {
-    speed: 3,
-    health: 300,
-    scoreValue: 30,
+    speed: 2,
+    health: 250,
+    scoreValue: 25,
     damageValue: 1,
     moneyValue: 25,
+    enemies: 10,
   }
   game.director.enemyScaling = {
-    speed: 1.0,
-    health: 1.0,
+    speed: 1.01,
+    health: 1.05,
     scoreValue: 1.0,
     damageValue: 1.0,
     moneyValue: 1.0,
+    enemies: 10,
   }
 } else {
   game.director.totalWaves = 1000
+  game.money = 300
   game.director.enemyStats = {
     speed: 1,
     health: 100,
     scoreValue: 10,
     damageValue: 1,
     moneyValue: 25,
+    enemies: 10,
   }
   game.director.enemyScaling = {
-    speed: 1.1,
-    health: 1.1,
+    speed: 1.15,
+    health: 1.25,
     scoreValue: 1,
     damageValue: 1,
     moneyValue: 1,
+    enemies: 10,
   }
 }
 
@@ -115,7 +127,7 @@ placementTilesData2D.forEach((row, y) => {
 })
 
 let wave = []
-for (let i = 1; i < 11; i++) {
+for (let i = 0; i < game.director.enemyStats.enemies; i++) {
     const xOffset = i * 115
     wave.push(new Enemy(
     {

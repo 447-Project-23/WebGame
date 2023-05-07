@@ -24,6 +24,7 @@ class Director {
           scoreValue: 10,
           damageValue: 1,
           moneyValue: 25,
+          enemies: 10,
         }
         //This the scaling of enemy stats per wave
         this.enemyScaling = {
@@ -32,6 +33,7 @@ class Director {
           scoreValue: 1.0,
           damageValue: 1.0,
           moneyValue: 1.0,
+          enemies: 1,
         }
     }
 
@@ -78,7 +80,7 @@ class Director {
             }
           } else {
                 let wave = []
-                  for (let i = 1; i < 11; i++) {
+                  for (let i = 0; i < game.director.enemyStats.enemies + (game.director.enemyScaling.enemies * game.director.currentWave); i++) {
                       const xOffset = i * 115
                       wave.push(new Enemy(
                           {
@@ -205,6 +207,11 @@ class Enemy {
                     // @todo: fix that
                     if (game.health < 1) {
                         alert("You lost!")
+                        if (userInfo.currentLevel == 4) {
+                            //Playing endless mode, so add score
+                            userInfo.score += game.score;
+                            save();
+                        }
                         document.location.href='\levelselect.html';
                     }
                 }
