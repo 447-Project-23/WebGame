@@ -132,8 +132,8 @@ app.put("/users/update/:id", (req, res, next) => {
         return;
     }
 
-    let query = "UPDATE users set id=?, level=?, score=?"
-    let params = [req.params.id, req.body.level, req.body.score]
+    let query = "UPDATE users set level=?, score=? where id=?"
+    let params = [req.body.level, req.body.score, req.body.id]
 
     db.run(query, params, (err, sql) => {
         if (err)
