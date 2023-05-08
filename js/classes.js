@@ -266,8 +266,8 @@ class Building {
                         y: this.center.y - 3
                     }
                 })
-                projectile.speed = 8 * 1 + this.level / 4 //change these 
-                projectile.damage = 25 * 1 + this.level / 4
+                projectile.speed = 8 * (1 + this.level / 4) //change these 
+                projectile.damage = 25 * (1 + this.level / 4)
                 projectile.angle = angle
                 projectile.game = this.game
 
