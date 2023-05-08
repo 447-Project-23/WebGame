@@ -69,8 +69,8 @@ if (userInfo.currentLevel == 1) {
     enemies: 10,
   }
   game.director.enemyScaling = {
-    speed: 1.01,
-    health: 1.05,
+    speed: 1.1,
+    health: 1.1,
     scoreValue: 1.0,
     damageValue: 1.0,
     moneyValue: 1.0,

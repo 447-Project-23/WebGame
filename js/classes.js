@@ -185,8 +185,8 @@ class Enemy {
         }
 
         if (
-            Math.abs(Math.round(this.center.x) - Math.round(waypoint.x)) < 2 &&
-            Math.abs(Math.round(this.center.y) - Math.round(waypoint.y)) < 2 &&
+            Math.abs(Math.round(this.center.x) - Math.round(waypoint.x)) < 8 &&
+            Math.abs(Math.round(this.center.y) - Math.round(waypoint.y)) < 8 &&
             this.waypointIndex < waypoints.length - 1)
             {
                 this.waypointIndex++
