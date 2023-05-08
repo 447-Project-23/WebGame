@@ -136,5 +136,8 @@ function updateUserInfo(userName, curLevel, curScore) {
 			console.log("Update successful")
             document.location.href='\levelselect.html';
 		}
-	}).catch(error => console.log(error));
+	}).catch(error => {
+		console.log(error)
+		document.location.href='\levelselect.html';
+	});
 }
