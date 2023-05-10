@@ -59,10 +59,6 @@ class Director {
         if (numDead == numTotal) {
           this.waves[this.currentWave] = [];
           this.currentWave++;
-
-          while (this.game.projectiles.length > 0)
-               this.game.projectiles.pop() // Clear projectiles array
-
           //Check if the next wave exists
           if (this.currentWave >= this.totalWaves) {
             //Beat the Level, so alert win
@@ -159,6 +155,8 @@ class Enemy {
             x: this.position.x + this.width / 2,
             y: this.position.y + this.height / 2
         }
+        this.image = new Image()
+        this.image.src = '../img/yeti_right.png'
 
         this.speed = speed
         this.health = health
@@ -170,8 +168,9 @@ class Enemy {
     }
 
     draw() {
-        context.fillStyle = 'red'
-        context.fillRect(this.position.x, this.position.y, this.width, this.height)
+        context.drawImage(this.image, this.position.x, this.position.y, 64, 64)
+        //context.fillStyle = 'red'
+        //context.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 
     update() {
@@ -227,6 +226,7 @@ class Building {
     constructor({position = {x:0, y:0}}, cost, game, range, firerate) {
         this.position = position
         this.width = 32
+        this.height = 32
         this.center = {
             x: this.position.x + this.width / 2,
             y: this.position.y + this.width / 2
@@ -238,6 +238,9 @@ class Building {
         this.nextFire = -1
         this.level = 1
         this.color = 'blue'
+        this.image = new Image()
+        this.image.src = '../img/penguin_scared.png'
+        this.xDistance = 0
     }
 
     update() {
@@ -247,8 +250,7 @@ class Building {
     }
 
     draw() {
-        context.fillStyle = this.color
-        context.fillRect(this.position.x, this.position.y, this.width, 32)
+        context.drawImage(this.image, this.position.x, this.position.y, 32, 32)
     }
 
     checkForEnemies() {
@@ -260,14 +262,16 @@ class Building {
                 wave[i].center.x, wave[i].center.y)
 
             if (dist < this.range) {
-                let yDistance = wave[i].center.y - this.center.y
-                let xDistance = wave[i].center.x - this.center.x
-                let angle = Math.atan2(yDistance, xDistance)
+                let yDistance = wave[i].center.y - this.position.y
+                this.xDistance = wave[i].center.x - this.position.x
+                let angle = Math.atan2(yDistance, this.xDistance)
 
                 let projectile = new Projectile({
                     position: {
-                        x: this.center.x - 3,
-                        y: this.center.y - 3
+                        x: this.center.x - 16,
+                        y: this.center.y - 16
+                        //x: this.center.x - 3,
+                        //y: this.center.y - 3
                     }
                 })
                 projectile.speed = 8 * (1 + this.level / 4) //change these 
@@ -295,13 +299,16 @@ class Building {
 
         switch (this.level) {
             case 2:
-                this.color = 'green'
+                this.image.src = '../img/penguin_left.png'
+                //this.color = 'green'
                 break
             case 3:
-                this.color = 'yellow'
+                this.image.src = '../img/penguin_sliding.png'
+                //this.color = 'yellow'
                 break
             case 4:
-                this.color = 'orange'
+                this.image.src = '../img/penguin_jumping.png'
+                //this.color = 'orange'
                 break
         }
     }
@@ -315,6 +322,8 @@ class Projectile {
         this.game = game
         this.angle = angle
         this.size = size
+        this.image = new Image()
+        this.image.src = '../img/snowball.png'
     }
 
     update() {
@@ -326,8 +335,10 @@ class Projectile {
     }
 
     draw() {
-        context.fillStyle = 'black'
-        context.fillRect(this.position.x, this.position.y, 6, 6)
+        context.drawImage(this.image, this.position.x, this.position.y, 32, 32)
+        //this.draw()
+        //context.fillStyle = 'black'
+        //context.fillRect(this.position.x, this.position.y, 6, 6)
     }
 
     checkForCollision() {
@@ -353,8 +364,8 @@ class Projectile {
                 }
 
                 this.speed = 0
-                this.position.x = -10
-                this.position.y = -10
+                this.position.x = -10000
+                this.position.y = -10000
                 delete this
             }
         }
@@ -364,3 +375,5 @@ class Projectile {
         return Math.sqrt(((x2 - x1) ** 2) + ((y2 - y1) ** 2))
     }
 }
+
+
