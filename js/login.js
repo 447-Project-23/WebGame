@@ -134,7 +134,10 @@ function updateUserInfo(userName, curLevel, curScore) {
 	axios.put("http://localhost:9000/users/update/" + userName, userObject).then((res) => {
 		if (res.status == 200) {
 			console.log("Update successful")
-            document.location.href='\levelselect.html';
+			axios.get("http://localhost:9000/api/send").then((res) => {
+				console.log(res);
+			}).catch(error => {console.log(error)})
+      document.location.href='\levelselect.html';
 		}
 	}).catch(error => {
 		console.log(error)
