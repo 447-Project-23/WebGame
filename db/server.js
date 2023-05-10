@@ -6,6 +6,7 @@ var app = express()
 var db = require('./database.js')
 var bodyParser = require("body-parser");
 var cors = require("cors");
+var axios = require("axios");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -142,5 +143,26 @@ app.put("/users/update/:id", (req, res, next) => {
             return;
         }
         res.json({"message":"success"})
+    })
+})
+
+// /API/SEND
+// sending a get to this route will get the top 5 scores and send them to prof allgood's API
+app.get("/api/send", (req, res, next) => {
+    let query = "SELECT id, score FROM users ORDER BY score DESC LIMIT 5";
+    let end_result = {"data":[{"Group":"L","Title":"Top 5 Scores"}]}
+    db.all(query, [], (err, sql) => {
+        if (err)
+        {
+            console.log("Failed to query top 5 scores from DB", err)
+            return;
+        }
+        sql.forEach(user => {
+            end_result["data"][0][user["id"]] = user["score"]
+        })
+        
+        axios.post("https://eope3o6d7z7e2cc.m.pipedream.net", end_result)
+        .then((res) => {console.log("Success sending to API"); console.log(res)})
+        .catch((err) => {console.log("Something went wrong sending to API"); console.log(err)})
     })
 })
