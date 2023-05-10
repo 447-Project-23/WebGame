@@ -59,6 +59,10 @@ class Director {
         if (numDead == numTotal) {
           this.waves[this.currentWave] = [];
           this.currentWave++;
+
+          while (this.game.projectiles.length > 0)
+               this.game.projectiles.pop() // Clear projectiles array
+
           //Check if the next wave exists
           if (this.currentWave >= this.totalWaves) {
             //Beat the Level, so alert win
