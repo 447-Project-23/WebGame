@@ -164,5 +164,6 @@ app.get("/api/send", (req, res, next) => {
         axios.post("https://eope3o6d7z7e2cc.m.pipedream.net", end_result)
         .then((res) => {console.log("Success sending to API"); console.log(res)})
         .catch((err) => {console.log("Something went wrong sending to API"); console.log(err)})
+        res.json({"message":"success"})
     })
 })
