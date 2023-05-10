@@ -256,8 +256,8 @@ class Building {
                 wave[i].center.x, wave[i].center.y)
 
             if (dist < this.range) {
-                let yDistance = wave[i].center.y - this.position.y
-                let xDistance = wave[i].center.x - this.position.x
+                let yDistance = wave[i].center.y - this.center.y
+                let xDistance = wave[i].center.x - this.center.x
                 let angle = Math.atan2(yDistance, xDistance)
 
                 let projectile = new Projectile({
