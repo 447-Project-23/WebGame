@@ -58,7 +58,7 @@ if (userInfo.currentLevel == 1) {
     enemies: 5,
   }
 } else if (userInfo.currentLevel == 3) {
-  game.director.totalWaves = 20
+  game.director.totalWaves = 15
   game.money = 1350
   game.director.enemyStats = {
     speed: 2,
